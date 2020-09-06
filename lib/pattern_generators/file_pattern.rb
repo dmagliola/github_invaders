@@ -1,3 +1,6 @@
+require 'net/http'
+require 'uri'
+
 # Generates a looping pattern based on a file in /patterns.
 # This allows drawing any specific picture by creating new patterns
 #
@@ -28,13 +31,27 @@ module GithubInvaders
         pattern.map(&:length).max + 2
       end
 
-      def full_pattern_file_path
-        "patterns/#{ pattern_filename }.txt"
+      def is_uri?(string)
+        uri = URI.parse(string)
+        %w( http https ).include?(uri.scheme)
+      rescue URI::BadURIError
+        false
+      rescue URI::InvalidURIError
+        false
+      end
+
+      def pattern_file_contents
+        if is_uri?(pattern_filename)
+          ::Net::HTTP.get(URI.parse(pattern_filename))
+        else
+          full_path = "patterns/#{ pattern_filename }.txt"
+          File.open(full_path).read
+        end
       end
 
       # Loads
       def load_pattern
-        file_lines = File.open(full_pattern_file_path).readlines
+        file_lines = pattern_file_contents.split("\n")
         raise "Invalid number of lines, expected 7: #{ file_lines.length }" unless file_lines.length == 7
 
         pattern = file_lines.map do |line|
