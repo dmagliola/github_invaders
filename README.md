@@ -61,7 +61,9 @@ The repo comes with several generators and patterns pre-loaded:
 - `FilePattern`: The one you most likely want. It will load a text file that defines a pattern, 
     and put that on your wall.
   - Takes the name of the pattern as a parameter. Patterns are stored in `/patterns` in this repo.
-  - To make your own custom pattern, simply add a `.txt` file to `/patterns`. 
+  - To make your own custom pattern, simply add a `.txt` file to `/patterns`.
+    If you are on a Mac, you can use the [Numbers spreadsheet](pixel_patterns.numbers) to play around
+    with patterns easily. Set cells to 1 to turn them black. 
   - See the rules for pattern files in the [generator file comments](lib/pattern_generators/file_pattern.rb).
   - If you will be running this continuously on a server, adding the file would require forking the repo and pushing
     the new file to your own fork. Instead, you can specify a URL to anything that'll return a plain text
