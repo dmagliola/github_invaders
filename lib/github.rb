@@ -1,4 +1,5 @@
 require "git"
+require_relative "dummy_file"
 
 module GithubInvaders
   class Github
@@ -16,9 +17,14 @@ module GithubInvaders
       Git.clone(github_repo, LOCAL_REPO_NAME, path: work_dir)
     end
 
-    def make_dummy_commit(date: nil)
+    def make_dummy_commit(date: Time.now)
       commit_number = DummyFile.increment_dummy_file(dummy_file_path)
       commit_message = "Dummy commit ##{ commit_number }"
+
+      date = date.strftime("%Y-%m-%d %H:%M:%S") unless date.is_a?(String)
+
+      # Set commit date in addition to author date (not supported by Git gem)
+      ENV['GIT_COMMITTER_DATE'] = date
 
       g = Git.open(dummy_repo_path)
       g.add(dummy_file_path)
