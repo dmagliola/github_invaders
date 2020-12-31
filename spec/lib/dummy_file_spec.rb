@@ -1,3 +1,4 @@
+require "fileutils"
 require_relative "../../lib/dummy_file"
 
 describe GithubInvaders::DummyFile do

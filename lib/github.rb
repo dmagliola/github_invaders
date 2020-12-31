@@ -1,3 +1,4 @@
+require "fileutils"
 require "git"
 require_relative "dummy_file"
 
